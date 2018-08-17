@@ -1,5 +1,18 @@
 import React from "react"
+import { withStyles } from "@material-ui/core/styles"
+import NavBar from "./Navbar"
+import "./App.css"
+import ListPostsPage from "./ListPostPage"
 
-const App = () => <div />
+const styles = theme => ({
+  container: {}
+})
 
-export default App
+const App = ({ classes }) => (
+  <div className={classes.container}>
+    <NavBar />
+    <ListPostsPage />
+  </div>
+)
+
+export default withStyles(styles)(App)
