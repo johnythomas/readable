@@ -1,33 +1,29 @@
-import React from "react"
+import React, { Fragment } from "react"
 import { Grid, withStyles } from "@material-ui/core"
+import ListPostsHeader from "./ListPostHeader"
+import CategoryFilter from "./CategoryFilter"
 import ListPosts from "./ListPosts"
-import MenuButton from "./MenuButton"
-import CustomMenu from "./CustomMenu"
 
 const styles = theme => ({
-  category: {
-    backgroundColor: theme.palette.secondary.main,
-    height: "30vh"
-  },
-  formControl: {
-    width: "80%"
+  root: {
+    marginTop: `${theme.spacing.unit * 4}px`
   }
 })
 
 const ListPostPage = ({ classes }) => (
-  <Grid container>
-    <Grid className={classes.category} container justify="center">
-      <Grid container justify="center" className={classes.category}>
-        <Grid item sm={6}>
-          <CustomMenu />
+  <Fragment>
+    <ListPostsHeader />
+    <Grid className={classes.root} container justify="center">
+      <Grid container item sm={6}>
+        <Grid item sm={3}>
+          <CategoryFilter />
         </Grid>
-        <Grid item sm={1}>
-          <MenuButton />
+        <Grid item sm={9}>
+          <ListPosts />
         </Grid>
       </Grid>
     </Grid>
-    <ListPosts />
-  </Grid>
+  </Fragment>
 )
 
 export default withStyles(styles)(ListPostPage)

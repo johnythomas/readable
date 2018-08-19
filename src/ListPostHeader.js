@@ -27,7 +27,7 @@ const styles = theme => ({
   }
 })
 
-const Navbar = ({ classes }) => (
+const ListPostHeader = ({ classes }) => (
   <Grid
     className={classes.navBarContainer}
     container
@@ -68,4 +68,4 @@ const Navbar = ({ classes }) => (
   </Grid>
 )
 
-export default withStyles(styles)(Navbar)
+export default withStyles(styles)(ListPostHeader)
