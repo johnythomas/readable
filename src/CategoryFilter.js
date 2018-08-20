@@ -1,5 +1,18 @@
-import React from "react"
-import { Divider, Grid, Typography, withStyles } from "@material-ui/core"
+import React, { Component } from "react"
+import {
+  Divider,
+  Grid,
+  Hidden,
+  List,
+  ListItem,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Typography,
+  withStyles,
+  withWidth
+} from "@material-ui/core"
+import compose from "recompose/compose"
 import { FilterList } from "@material-ui/icons"
 
 const styles = theme => ({
@@ -20,32 +33,100 @@ const styles = theme => ({
   }
 })
 
-const CategoryFilter = ({ classes }) => (
-  <Grid container>
-    <Grid container>
-      <Typography>
-        <FilterList /> FILTER BY
-      </Typography>
-      <Divider />
-    </Grid>
-    <Grid className={classes.categoryContainer} container>
-      <Grid className={classes.categoryItem} item sm={12}>
-        ALL
-      </Grid>
-      <Grid className={classes.categoryItem} item sm={12}>
-        Linux
-      </Grid>
-      <Grid className={classes.categoryItem} item sm={12}>
-        Android
-      </Grid>
-      <Grid className={classes.categoryItem} item sm={12}>
-        Windows
-      </Grid>
-      <Grid className={classes.categoryItem} item sm={12}>
-        Mac
-      </Grid>
-    </Grid>
-  </Grid>
-)
+const options = ["All", "Linux", "Windows", "Android"]
 
-export default withStyles(styles)(CategoryFilter)
+class CategoryFilter extends Component {
+  button = null
+
+  state = {
+    anchorEl: null,
+    selectedIndex: 1
+  }
+
+  handleClickListItem = event => {
+    this.setState({ anchorEl: event.currentTarget })
+  }
+
+  handleMenuItemClick = (event, index) => {
+    this.setState({ selectedIndex: index, anchorEl: null })
+  }
+
+  handleClose = () => {
+    this.setState({ anchorEl: null })
+  }
+
+  render() {
+    const { classes } = this.props
+    const { anchorEl, selectedIndex } = this.state
+
+    return (
+      <Grid container>
+        <Hidden smUp>
+          <Grid container>
+            <List component="nav">
+              <ListItem
+                button
+                aria-haspopup="true"
+                aria-controls="lock-menu"
+                aria-label="Category"
+                onClick={this.handleClickListItem}
+              >
+                <ListItemText
+                  primary="Category"
+                  secondary={options[selectedIndex]}
+                />
+              </ListItem>
+            </List>
+            <Menu
+              id="lock-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={this.handleClose}
+            >
+              {options.map((option, index) => (
+                <MenuItem
+                  key={option}
+                  disabled={index === 0}
+                  selected={index === selectedIndex}
+                  onClick={event => this.handleMenuItemClick(event, index)}
+                >
+                  {option}
+                </MenuItem>
+              ))}
+            </Menu>
+          </Grid>
+        </Hidden>
+        <Hidden smDown>
+          <Grid container>
+            <Typography>
+              <FilterList /> FILTER BY
+            </Typography>
+            <Divider />
+          </Grid>
+          <Grid className={classes.categoryContainer} container>
+            <Grid className={classes.categoryItem} item md={12}>
+              ALL
+            </Grid>
+            <Grid className={classes.categoryItem} item sm={12}>
+              Linux
+            </Grid>
+            <Grid className={classes.categoryItem} item sm={12}>
+              Android
+            </Grid>
+            <Grid className={classes.categoryItem} item sm={12}>
+              Windows
+            </Grid>
+            <Grid className={classes.categoryItem} item sm={12}>
+              Mac
+            </Grid>
+          </Grid>
+        </Hidden>
+      </Grid>
+    )
+  }
+}
+
+export default compose(
+  withStyles(styles),
+  withWidth()
+)(CategoryFilter)
