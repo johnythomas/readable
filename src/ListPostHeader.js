@@ -7,7 +7,7 @@ import {
   Typography,
   withStyles
 } from "@material-ui/core"
-import { Search, Create } from "@material-ui/icons"
+import { Search, AddComment } from "@material-ui/icons"
 
 const styles = theme => ({
   navBarContainer: {
@@ -24,6 +24,11 @@ const styles = theme => ({
   },
   whiteText: {
     color: theme.palette.common.white
+  },
+  addPostIcon: {
+    color: theme.palette.common.white,
+    marginTop: "5px",
+    paddingRight: "5px"
   }
 })
 
@@ -42,10 +47,20 @@ const ListPostHeader = ({ classes }) => (
           </Typography>
         </Grid>
         <Grid item md={2} container justify="flex-end" alignItems="flex-end">
-          <Typography className={classes.whiteText} variant="title">
-            <Create />
-            Post
-          </Typography>
+          <Grid
+            className={classes.addPostIcon}
+            container
+            item
+            md={6}
+            justify="flex-end"
+          >
+            <AddComment />
+          </Grid>
+          <Grid item md={6}>
+            <Typography className={classes.whiteText} variant="title">
+              Post
+            </Typography>
+          </Grid>
         </Grid>
       </Grid>
       <Grid container className={classes.divider}>
