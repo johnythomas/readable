@@ -65,12 +65,12 @@ const ListPosts = ({ classes }) => (
         <Card className={classes.postCard}>
           <CardContent>
             <Grid container>
-              <Grid item sm={1}>
+              <Grid item sm={1} md={1}>
                 <ArrowDropUp className={classes.voteButton} />
                 <Typography className={classes.vote}>10</Typography>
                 <ArrowDropDown className={classes.voteButton} />
               </Grid>
-              <Grid item sm={11}>
+              <Grid item sm={11} md={11}>
                 <Typography variant="title" gutterBottom>
                   Post Title
                 </Typography>
@@ -86,7 +86,7 @@ const ListPosts = ({ classes }) => (
           </CardContent>
           <CardActions>
             <Grid container>
-              <Grid item container sm={3}>
+              <Grid item container sm={3} md={4}>
                 <Chip
                   className={classes.avatarChip}
                   avatar={<Avatar className={classes.avatar}>AN</Avatar>}
@@ -94,8 +94,14 @@ const ListPosts = ({ classes }) => (
                 />
               </Grid>
 
-              <Grid className={classes.actionContainer} item container sm={3}>
-                <Grid item sm={2}>
+              <Grid
+                className={classes.actionContainer}
+                item
+                container
+                sm={3}
+                md={3}
+              >
+                <Grid item sm={2} md={2}>
                   <ChatBubbleOutline
                     className={classes.icon}
                     color="secondary"
@@ -106,22 +112,34 @@ const ListPosts = ({ classes }) => (
                 </Grid>
               </Grid>
 
-              <Grid className={classes.actionContainer} item container sm={3}>
-                <Grid item sm={2}>
+              <Grid
+                className={classes.actionContainer}
+                item
+                container
+                sm={3}
+                md={2}
+              >
+                <Grid item sm={2} md={3}>
                   <Edit className={classes.icon} color="secondary" />
                 </Grid>
-                <Grid className={classes.comments} item sm={10}>
+                <Grid className={classes.comments} item sm={10} md={9}>
                   <Typography variant="body2">Edit</Typography>
                 </Grid>
               </Grid>
 
-              <Grid className={classes.actionContainer} item container sm={3}>
-                <Grid item sm={2}>
+              <Grid
+                className={classes.actionContainer}
+                item
+                container
+                sm={3}
+                md={2}
+              >
+                <Grid item sm={2} md={3}>
                   <DeleteOutline
                     className={`${classes.icon} ${classes.deleteIcon}`}
                   />
                 </Grid>
-                <Grid className={classes.comments} item sm={10}>
+                <Grid className={classes.comments} item sm={10} md={9}>
                   <Typography variant="body2">Delete</Typography>
                 </Grid>
               </Grid>
