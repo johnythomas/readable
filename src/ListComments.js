@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Fragment } from "react"
 import {
   Avatar,
   Chip,
@@ -8,18 +8,15 @@ import {
   withStyles
 } from "@material-ui/core"
 import {
-  ArrowDropUp,
   ArrowDropDown,
-  ChatBubbleOutline,
+  ArrowDropUp,
   DeleteOutline,
   Edit
 } from "@material-ui/icons"
-import Header from "./Header"
-import ListComments from "./ListComments"
 
 const styles = theme => ({
-  post: {
-    marginTop: `${theme.spacing.unit * 4}px`
+  comments: {
+    margin: `${theme.spacing.unit * 2}px`
   },
   voteButton: {
     fontSize: 36,
@@ -32,19 +29,13 @@ const styles = theme => ({
   postBody: {
     color: "#2e3d49"
   },
-  categoryChip: {
-    margin: `${theme.spacing.unit * 2}px 0`,
-    backgroundColor: "#e5f6fd",
-    color: theme.palette.primary.main
-  },
   avatar: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white
   },
   avatarChip: {
     backgroud: "none",
-    color: "e5f6fd",
-    margin: `${theme.spacing.unit * 2}px 0`
+    color: "e5f6fd"
   },
   actionContainer: {
     margin: `${theme.spacing.unit * 2}px`
@@ -58,35 +49,22 @@ const styles = theme => ({
   }
 })
 
-const PostDetails = ({ classes }) => (
-  <Grid container justify="center">
-    <Header />
-    <Grid className={classes.post} item sm={6} md={6} lg={5} xs={12}>
-      <Grid className={classes.postCard}>
+const ListComments = ({ classes }) => (
+  <Fragment>
+    {[1, 2, 3].map(key => (
+      <Grid key={key} container className={classes.comments}>
         <Grid container>
           <Grid item sm={1} md={1}>
             <ArrowDropUp className={classes.voteButton} />
-            <Typography className={classes.vote}>10</Typography>
+            <Typography className={classes.vote}>14</Typography>
             <ArrowDropDown className={classes.voteButton} />
           </Grid>
           <Grid item sm={11} md={11}>
-            <Typography variant="title" gutterBottom>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos,
-              ab?
-            </Typography>
-
-            <Chip
-              className={classes.avatarChip}
-              avatar={<Avatar className={classes.avatar}>AN</Avatar>}
-              label="Avatar Name"
-            />
-
             <Typography className={classes.postBody} variant="body1">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit.
               Praesentium quisquam, corrupti quos animi dicta eum vitae ut.
               Corporis, distinctio aspernatur!
             </Typography>
-            <Chip className={classes.categoryChip} label="Linux" />
 
             <Grid container>
               <Grid
@@ -96,15 +74,11 @@ const PostDetails = ({ classes }) => (
                 sm={3}
                 md={3}
               >
-                <Grid item sm={2} md={2}>
-                  <ChatBubbleOutline
-                    className={classes.icon}
-                    color="secondary"
-                  />
-                </Grid>
-                <Grid item sm={10}>
-                  <Typography variant="body2">80 COMMENTS</Typography>
-                </Grid>
+                <Chip
+                  className={classes.avatarChip}
+                  avatar={<Avatar className={classes.avatar}>AN</Avatar>}
+                  label="Avatar Name"
+                />
               </Grid>
 
               <Grid
@@ -141,11 +115,10 @@ const PostDetails = ({ classes }) => (
             </Grid>
           </Grid>
         </Grid>
+        <Divider />
       </Grid>
-      <Divider />
-      <ListComments />
-    </Grid>
-  </Grid>
+    ))}
+  </Fragment>
 )
 
-export default withStyles(styles)(PostDetails)
+export default withStyles(styles)(ListComments)
