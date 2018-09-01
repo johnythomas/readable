@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import {
   Grid,
   FormControl,
@@ -29,6 +30,9 @@ const styles = theme => ({
     color: theme.palette.common.white,
     marginTop: "5px",
     paddingRight: "5px"
+  },
+  addPostLink: {
+    textDecoration: "none"
   }
 })
 
@@ -46,7 +50,16 @@ const ListPostHeader = ({ classes }) => (
             Readable
           </Typography>
         </Grid>
-        <Grid item md={2} container justify="flex-end" alignItems="flex-end">
+        <Grid
+          className={classes.addPostLink}
+          component={Link}
+          to="/addPost"
+          item
+          md={2}
+          container
+          justify="flex-end"
+          alignItems="flex-end"
+        >
           <Grid
             className={classes.addPostIcon}
             container

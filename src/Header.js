@@ -1,14 +1,27 @@
 import React from "react"
-import { AppBar, Toolbar, Typography } from "@material-ui/core"
+import { Link } from "react-router-dom"
+import { AppBar, Toolbar, Typography, withStyles } from "@material-ui/core"
 
-const Header = () => (
+const styles = {
+  title: {
+    textDecoration: "none"
+  }
+}
+
+const Header = ({ classes }) => (
   <AppBar position="static" color="primary">
     <Toolbar>
-      <Typography variant="title" color="inherit">
+      <Typography
+        className={classes.title}
+        component={Link}
+        to="/"
+        variant="title"
+        color="inherit"
+      >
         Readable
       </Typography>
     </Toolbar>
   </AppBar>
 )
 
-export default Header
+export default withStyles(styles)(Header)
