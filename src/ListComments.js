@@ -44,6 +44,9 @@ const styles = theme => ({
 
 const ListComments = ({ classes }) => (
   <Fragment>
+    <Typography variant="subheading" gutterBottom>
+      80 COMMENTS
+    </Typography>
     {[1, 2, 3].map(key => (
       <Grid key={key} container item sm={12} className={classes.comments}>
         <Grid item sm={1} md={1}>

@@ -10,7 +10,6 @@ import {
 import {
   ArrowDropUp,
   ArrowDropDown,
-  ChatBubbleOutline,
   DeleteOutline,
   Edit
 } from "@material-ui/icons"
@@ -89,24 +88,6 @@ const PostDetails = ({ classes }) => (
             <Chip className={classes.categoryChip} label="Linux" />
 
             <Grid container>
-              <Grid
-                className={classes.actionContainer}
-                item
-                container
-                sm={3}
-                md={3}
-              >
-                <Grid item sm={2} md={2}>
-                  <ChatBubbleOutline
-                    className={classes.icon}
-                    color="secondary"
-                  />
-                </Grid>
-                <Grid item sm={10}>
-                  <Typography variant="body2">80 COMMENTS</Typography>
-                </Grid>
-              </Grid>
-
               <Grid
                 className={classes.actionContainer}
                 item
