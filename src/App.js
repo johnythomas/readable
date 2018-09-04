@@ -14,7 +14,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.getPosts()
+    const { getPosts } = this.props
+    getPosts()
   }
 
   render() {

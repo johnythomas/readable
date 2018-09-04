@@ -1,4 +1,5 @@
 import React from "react"
+import { connect } from "react-redux"
 import {
   Avatar,
   Chip,
@@ -58,28 +59,28 @@ const styles = theme => ({
   }
 })
 
-const ListPosts = ({ classes }) => (
+const ListPosts = ({ classes, posts }) => (
   <Grid container>
-    {[1, 2, 3].map(v => (
-      <Grid className={classes.post} key={v} item sm={12}>
+    {posts.map(post => (
+      <Grid className={classes.post} key={post.id} item sm={12}>
         <Card className={classes.postCard}>
           <CardContent>
             <Grid container>
               <Grid item sm={1} md={1}>
                 <ArrowDropUp className={classes.voteButton} />
-                <Typography className={classes.vote}>10</Typography>
+                <Typography className={classes.vote}>
+                  {post.voteScore}
+                </Typography>
                 <ArrowDropDown className={classes.voteButton} />
               </Grid>
               <Grid item sm={11} md={11}>
                 <Typography variant="title" gutterBottom>
-                  Post Title
+                  {post.title}
                 </Typography>
                 <Typography className={classes.postBody} variant="body1">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Praesentium quisquam, corrupti quos animi dicta eum vitae ut.
-                  Corporis, distinctio aspernatur!
+                  {post.body}
                 </Typography>
-                <Chip className={classes.categoryChip} label="Linux" />
+                <Chip className={classes.categoryChip} label={post.category} />
                 <Divider />
               </Grid>
             </Grid>
@@ -90,7 +91,7 @@ const ListPosts = ({ classes }) => (
                 <Chip
                   className={classes.avatarChip}
                   avatar={<Avatar className={classes.avatar}>AN</Avatar>}
-                  label="Avatar Name"
+                  label={post.author}
                 />
               </Grid>
 
@@ -108,7 +109,9 @@ const ListPosts = ({ classes }) => (
                   />
                 </Grid>
                 <Grid className={classes.comments} item sm={10}>
-                  <Typography variant="body2">80 COMMENTS</Typography>
+                  <Typography variant="body2">
+                    {post.commentCount} COMMENTS
+                  </Typography>
                 </Grid>
               </Grid>
 
@@ -151,4 +154,8 @@ const ListPosts = ({ classes }) => (
   </Grid>
 )
 
-export default withStyles(styles)(ListPosts)
+const mapStateToProps = state => ({
+  posts: Object.values(state.posts)
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(ListPosts))
