@@ -1,5 +1,6 @@
 import React from "react"
 import { connect } from "react-redux"
+import { Link } from "react-router-dom"
 import {
   Avatar,
   Chip,
@@ -22,6 +23,9 @@ import {
 const styles = theme => ({
   post: {
     marginBottom: `${theme.spacing.unit * 4}px`
+  },
+  title: {
+    textDecoration: "none"
   },
   voteButton: {
     fontSize: 36,
@@ -74,7 +78,13 @@ const ListPosts = ({ classes, posts }) => (
                 <ArrowDropDown className={classes.voteButton} />
               </Grid>
               <Grid item sm={11} md={11}>
-                <Typography variant="title" gutterBottom>
+                <Typography
+                  className={classes.title}
+                  variant="title"
+                  component={Link}
+                  to={`post/${post.id}`}
+                  gutterBottom
+                >
                   {post.title}
                 </Typography>
                 <Typography className={classes.postBody} variant="body1">
