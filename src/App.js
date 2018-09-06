@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
-import { Route, Switch } from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import ListPostsPage from "./ListPostPage"
 import PostDetails from "./PostDetails"
 import AddPost from "./AddPost"
@@ -20,12 +20,14 @@ class App extends Component {
 
   render() {
     return (
-      <Switch>
-        <Route exact path="/" component={ListPostsPage} />
-        <Route path="/post/:id" component={PostDetails} />
-        <Route path="/addPost" component={AddPost} />
-        <Route component={NotFound} />
-      </Switch>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={ListPostsPage} />
+          <Route path="/post/:id" component={PostDetails} />
+          <Route path="/addPost" component={AddPost} />
+          <Route component={NotFound} />
+        </Switch>
+      </Router>
     )
   }
 }

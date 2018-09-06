@@ -2,7 +2,6 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { createStore } from "redux"
 import { Provider } from "react-redux"
-import { BrowserRouter } from "react-router-dom"
 import { MuiThemeProvider, CssBaseline } from "@material-ui/core"
 import middlewares from "./middlewares"
 import reducers from "./reducers"
@@ -16,12 +15,10 @@ const store = createStore(reducers, middlewares)
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
-      </MuiThemeProvider>
-    </BrowserRouter>
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById("root")
 )
