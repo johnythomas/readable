@@ -1,4 +1,5 @@
-import React from "react"
+import React, { Component } from "react"
+import { connect } from "react-redux"
 import {
   Avatar,
   Chip,
@@ -15,6 +16,7 @@ import {
 } from "@material-ui/icons"
 import Header from "./Header"
 import ListComments from "./ListComments"
+import { fetchPost } from "./actions/posts"
 
 const styles = theme => ({
   post: {
@@ -57,76 +59,93 @@ const styles = theme => ({
   }
 })
 
-const PostDetails = ({ classes }) => (
-  <Grid container justify="center">
-    <Header />
-    <Grid className={classes.post} item sm={6} md={6} lg={5} xs={12}>
-      <Grid className={classes.postCard}>
-        <Grid container>
-          <Grid item sm={1} md={1}>
-            <ArrowDropUp className={classes.voteButton} />
-            <Typography className={classes.vote}>10</Typography>
-            <ArrowDropDown className={classes.voteButton} />
-          </Grid>
-          <Grid item sm={11} md={11}>
-            <Typography variant="title" gutterBottom>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos,
-              ab?
-            </Typography>
+class PostDetails extends Component {
+  componentDidMount() {
+    const { match, getPost } = this.props
+    getPost(match.params.id)
+  }
 
-            <Chip
-              className={classes.avatarChip}
-              avatar={<Avatar className={classes.avatar}>AN</Avatar>}
-              label="Avatar Name"
-            />
-
-            <Typography className={classes.postBody} variant="body1">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Praesentium quisquam, corrupti quos animi dicta eum vitae ut.
-              Corporis, distinctio aspernatur!
-            </Typography>
-            <Chip className={classes.categoryChip} label="Linux" />
-
+  render() {
+    const { classes } = this.props
+    return (
+      <Grid container justify="center">
+        <Header />
+        <Grid className={classes.post} item sm={6} md={6} lg={5} xs={12}>
+          <Grid className={classes.postCard}>
             <Grid container>
-              <Grid
-                className={classes.actionContainer}
-                item
-                container
-                sm={3}
-                md={2}
-              >
-                <Grid item sm={2} md={3}>
-                  <Edit className={classes.icon} color="secondary" />
-                </Grid>
-                <Grid item sm={10} md={9}>
-                  <Typography variant="body2">Edit</Typography>
-                </Grid>
+              <Grid item sm={1} md={1}>
+                <ArrowDropUp className={classes.voteButton} />
+                <Typography className={classes.vote}>10</Typography>
+                <ArrowDropDown className={classes.voteButton} />
               </Grid>
+              <Grid item sm={11} md={11}>
+                <Typography variant="title" gutterBottom>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Quos, ab?
+                </Typography>
 
-              <Grid
-                className={classes.actionContainer}
-                item
-                container
-                sm={3}
-                md={2}
-              >
-                <Grid item sm={2} md={3}>
-                  <DeleteOutline
-                    className={`${classes.icon} ${classes.deleteIcon}`}
-                  />
-                </Grid>
-                <Grid item sm={10} md={9}>
-                  <Typography variant="body2">Delete</Typography>
+                <Chip
+                  className={classes.avatarChip}
+                  avatar={<Avatar className={classes.avatar}>AN</Avatar>}
+                  label="Avatar Name"
+                />
+
+                <Typography className={classes.postBody} variant="body1">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Praesentium quisquam, corrupti quos animi dicta eum vitae ut.
+                  Corporis, distinctio aspernatur!
+                </Typography>
+                <Chip className={classes.categoryChip} label="Linux" />
+
+                <Grid container>
+                  <Grid
+                    className={classes.actionContainer}
+                    item
+                    container
+                    sm={3}
+                    md={2}
+                  >
+                    <Grid item sm={2} md={3}>
+                      <Edit className={classes.icon} color="secondary" />
+                    </Grid>
+                    <Grid item sm={10} md={9}>
+                      <Typography variant="body2">Edit</Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Grid
+                    className={classes.actionContainer}
+                    item
+                    container
+                    sm={3}
+                    md={2}
+                  >
+                    <Grid item sm={2} md={3}>
+                      <DeleteOutline
+                        className={`${classes.icon} ${classes.deleteIcon}`}
+                      />
+                    </Grid>
+                    <Grid item sm={10} md={9}>
+                      <Typography variant="body2">Delete</Typography>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
+          <Divider />
+          <ListComments />
         </Grid>
       </Grid>
-      <Divider />
-      <ListComments />
-    </Grid>
-  </Grid>
-)
+    )
+  }
+}
 
-export default withStyles(styles)(PostDetails)
+const mapDispatchToProps = {
+  getPost: fetchPost
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(styles)(PostDetails))

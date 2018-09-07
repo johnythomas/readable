@@ -17,3 +17,12 @@ export const fetchPosts = () => async dispatch => {
     console.log(err)
   }
 }
+
+export const fetchPost = id => async dispatch => {
+  try {
+    const post = await API.getPost(id)
+    console.log(post)
+  } catch (err) {
+    console.log(err)
+  }
+}
