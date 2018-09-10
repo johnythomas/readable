@@ -17,6 +17,11 @@ export function getPosts() {
   return fetch(`${api}/posts`, { headers }).then(res => res.json())
 }
 
-export function getPost(id) {
-  return fetch(`${api}/posts/${id}`, { headers }).then(res => res.json())
+export function getPostDetails(postId) {
+  return Promise.all([
+    fetch(`${api}/posts/${postId}`, { headers }).then(res => res.json()),
+    fetch(`${api}/posts/${postId}/comments`, { headers }).then(res =>
+      res.json()
+    )
+  ])
 }

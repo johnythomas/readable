@@ -17,7 +17,7 @@ import {
 import { compose } from "lodash/fp"
 import Header from "./Header"
 import ListComments from "./ListComments"
-import { fetchPost } from "./actions/posts"
+import { fetchPostDetails } from "./actions/comments"
 
 const styles = theme => ({
   post: {
@@ -62,8 +62,8 @@ const styles = theme => ({
 
 class PostDetails extends Component {
   componentDidMount() {
-    const { match, getPost } = this.props
-    getPost(match.params.id)
+    const { match, getPostDetails } = this.props
+    getPostDetails(match.params.id)
   }
 
   render() {
@@ -148,7 +148,7 @@ const mapStateToProps = (state, { match }) => ({
 })
 
 const mapDispatchToProps = {
-  getPost: fetchPost
+  getPostDetails: fetchPostDetails
 }
 
 export default compose(
