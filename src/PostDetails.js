@@ -136,7 +136,7 @@ class PostDetails extends Component {
             </Grid>
           </Grid>
           <Divider />
-          <ListComments />
+          <ListComments postId={post.id} />
         </Grid>
       </Grid>
     )

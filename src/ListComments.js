@@ -1,4 +1,6 @@
 import React, { Fragment } from "react"
+import { connect } from "react-redux"
+import { compose } from "lodash/fp"
 import { Avatar, Chip, Grid, Typography, withStyles } from "@material-ui/core"
 import {
   ArrowDropDown,
@@ -42,23 +44,27 @@ const styles = theme => ({
   }
 })
 
-const ListComments = ({ classes }) => (
+const ListComments = ({ classes, comments }) => (
   <Fragment>
     <Typography variant="subheading" gutterBottom>
-      80 COMMENTS
+      {comments.length} COMMENTS
     </Typography>
-    {[1, 2, 3].map(key => (
-      <Grid key={key} container item sm={12} className={classes.comments}>
+    {comments.map(comment => (
+      <Grid
+        key={comment.id}
+        container
+        item
+        sm={12}
+        className={classes.comments}
+      >
         <Grid item sm={1} md={1}>
           <ArrowDropUp className={classes.voteButton} />
-          <Typography className={classes.vote}>14</Typography>
+          <Typography className={classes.vote}>{comment.voteScore}</Typography>
           <ArrowDropDown className={classes.voteButton} />
         </Grid>
         <Grid item sm={11} md={11}>
           <Typography className={classes.postBody} variant="body1">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            Praesentium quisquam, corrupti quos animi dicta eum vitae ut.
-            Corporis, distinctio aspernatur!
+            {comment.body}
           </Typography>
 
           <Grid container>
@@ -72,7 +78,7 @@ const ListComments = ({ classes }) => (
               <Chip
                 className={classes.avatarChip}
                 avatar={<Avatar className={classes.avatar}>AN</Avatar>}
-                label="Avatar Name"
+                label={comment.author}
               />
             </Grid>
 
@@ -114,4 +120,13 @@ const ListComments = ({ classes }) => (
   </Fragment>
 )
 
-export default withStyles(styles)(ListComments)
+const mapStateToProps = (state, { postId }) => ({
+  comments: state.posts[postId].comments.map(
+    commentId => state.comments[commentId]
+  )
+})
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(ListComments)
