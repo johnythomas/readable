@@ -14,6 +14,7 @@ import {
   DeleteOutline,
   Edit
 } from "@material-ui/icons"
+import { compose } from "lodash/fp"
 import Header from "./Header"
 import ListComments from "./ListComments"
 import { fetchPost } from "./actions/posts"
@@ -66,8 +67,10 @@ class PostDetails extends Component {
   }
 
   render() {
-    const { classes } = this.props
-    return (
+    const { classes, post } = this.props
+    return !post ? (
+      <div>Loading</div>
+    ) : (
       <Grid container justify="center">
         <Header />
         <Grid className={classes.post} item sm={6} md={6} lg={5} xs={12}>
@@ -75,27 +78,26 @@ class PostDetails extends Component {
             <Grid container>
               <Grid item sm={1} md={1}>
                 <ArrowDropUp className={classes.voteButton} />
-                <Typography className={classes.vote}>10</Typography>
+                <Typography className={classes.vote}>
+                  {post.voteScore}
+                </Typography>
                 <ArrowDropDown className={classes.voteButton} />
               </Grid>
               <Grid item sm={11} md={11}>
                 <Typography variant="title" gutterBottom>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Quos, ab?
+                  {post.title}
                 </Typography>
 
                 <Chip
                   className={classes.avatarChip}
                   avatar={<Avatar className={classes.avatar}>AN</Avatar>}
-                  label="Avatar Name"
+                  label={post.author}
                 />
 
                 <Typography className={classes.postBody} variant="body1">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Praesentium quisquam, corrupti quos animi dicta eum vitae ut.
-                  Corporis, distinctio aspernatur!
+                  {post.body}
                 </Typography>
-                <Chip className={classes.categoryChip} label="Linux" />
+                <Chip className={classes.categoryChip} label={post.category} />
 
                 <Grid container>
                   <Grid
@@ -141,11 +143,18 @@ class PostDetails extends Component {
   }
 }
 
+const mapStateToProps = (state, { match }) => ({
+  post: state.posts[match.params.id]
+})
+
 const mapDispatchToProps = {
   getPost: fetchPost
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(withStyles(styles)(PostDetails))
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withStyles(styles)
+)(PostDetails)

@@ -1,12 +1,17 @@
 import { normalize } from "normalizr"
 import Post from "../schemas/Post"
-import { RECEIVE_POSTS } from "../constants/types"
+import { RECEIVE_POSTS, RECEIVE_POST } from "../constants/types"
 
 import * as API from "../utils/api"
 
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,
   posts
+})
+
+export const receivePost = post => ({
+  type: RECEIVE_POST,
+  post
 })
 
 export const fetchPosts = () => async dispatch => {
@@ -21,7 +26,7 @@ export const fetchPosts = () => async dispatch => {
 export const fetchPost = id => async dispatch => {
   try {
     const post = await API.getPost(id)
-    console.log(post)
+    dispatch(receivePost(post))
   } catch (err) {
     console.log(err)
   }
