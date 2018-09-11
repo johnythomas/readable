@@ -8,6 +8,7 @@ import {
   DeleteOutline,
   Edit
 } from "@material-ui/icons"
+import { selectPostComments } from "./reducers"
 
 const styles = theme => ({
   comments: {
@@ -121,9 +122,7 @@ const ListComments = ({ classes, comments }) => (
 )
 
 const mapStateToProps = (state, { postId }) => ({
-  comments: state.posts[postId].comments.map(
-    commentId => state.comments[commentId]
-  )
+  comments: selectPostComments(state, postId)
 })
 
 export default compose(
