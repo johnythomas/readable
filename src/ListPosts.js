@@ -1,6 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
-import { Link } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
+import { compose } from "lodash/fp"
 import {
   Avatar,
   Chip,
@@ -19,6 +20,8 @@ import {
   DeleteOutline,
   Edit
 } from "@material-ui/icons"
+import { getVisiblePosts } from "./reducers"
+import { VisibilityFilters } from "./actions/visibilityFilter"
 
 const styles = theme => ({
   post: {
@@ -164,8 +167,12 @@ const ListPosts = ({ classes, posts }) => (
   </Grid>
 )
 
-const mapStateToProps = state => ({
-  posts: Object.values(state.posts)
+const mapStateToProps = (state, { match }) => ({
+  posts: getVisiblePosts(state, match.params.category || VisibilityFilters.ALL)
 })
 
-export default connect(mapStateToProps)(withStyles(styles)(ListPosts))
+export default compose(
+  withRouter,
+  connect(mapStateToProps),
+  withStyles(styles)
+)(ListPosts)

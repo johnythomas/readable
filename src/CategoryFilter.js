@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { Link } from "react-router-dom"
 import {
   Divider,
   Grid,
@@ -14,6 +15,7 @@ import {
 } from "@material-ui/core"
 import compose from "recompose/compose"
 import { FilterList } from "@material-ui/icons"
+import { VisibilityFilters } from "./actions/visibilityFilter"
 
 const styles = theme => ({
   categoryContainer: {
@@ -25,6 +27,7 @@ const styles = theme => ({
     cursor: "pointer",
     color: "#2e3d49",
     textTransform: "capitalize",
+    textDecoration: "none",
     "&:hover": {
       borderLeft: `3px solid ${theme.palette.primary.main}`,
       color: theme.palette.primary.main,
@@ -104,21 +107,18 @@ class CategoryFilter extends Component {
             <Divider />
           </Grid>
           <Grid className={classes.categoryContainer} container>
-            <Grid className={classes.categoryItem} item md={12}>
-              ALL
-            </Grid>
-            <Grid className={classes.categoryItem} item sm={12}>
-              Linux
-            </Grid>
-            <Grid className={classes.categoryItem} item sm={12}>
-              Android
-            </Grid>
-            <Grid className={classes.categoryItem} item sm={12}>
-              Windows
-            </Grid>
-            <Grid className={classes.categoryItem} item sm={12}>
-              Mac
-            </Grid>
+            {Object.keys(VisibilityFilters).map(category => (
+              <Grid
+                key={category}
+                className={classes.categoryItem}
+                component={Link}
+                to={`/${category.toLowerCase()}`}
+                item
+                md={12}
+              >
+                {category}
+              </Grid>
+            ))}
           </Grid>
         </Hidden>
       </Grid>
