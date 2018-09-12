@@ -8,9 +8,9 @@ import NotFound from "./NotFound"
 const App = () => (
   <Router>
     <Switch>
-      <Route exact path="/:category?" component={ListPostsPage} />
-      <Route path="/post/:id" component={PostDetails} />
       <Route path="/addPost" component={AddPost} />
+      <Route path="/post/:id" component={PostDetails} />
+      <Route exact path="/:category?" component={ListPostsPage} />
       <Route component={NotFound} />
     </Switch>
   </Router>

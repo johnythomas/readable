@@ -25,3 +25,14 @@ export function getPostDetails(postId) {
     )
   ])
 }
+
+export function savePost(post) {
+  return fetch(`${api}/posts`, {
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    method: "POST",
+    body: JSON.stringify(post)
+  }).then(res => res.json())
+}

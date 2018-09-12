@@ -1,6 +1,17 @@
-import React from "react"
-import { Grid, Button, TextField, withStyles } from "@material-ui/core"
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import {
+  Grid,
+  Button,
+  TextField,
+  MenuItem,
+  withStyles
+} from "@material-ui/core"
+import { compose } from "recompose"
+import uuidv4 from "uuid/v4"
 import Header from "./Header"
+import { VisibilityFilters } from "./actions/visibilityFilter"
+import { addPost } from "./actions/posts"
 
 const styles = theme => ({
   inputField: {
@@ -20,59 +31,158 @@ const styles = theme => ({
   }
 })
 
-const AddPost = ({ classes }) => (
-  <Grid container>
-    <Header />
-    <Grid item xs={12} md={12} lg={12} xl={12}>
-      <Grid container justify="center">
-        <Grid item sm={12} md={6} xl={6} lg={6}>
-          <TextField
-            label="POST TITLE"
-            InputLabelProps={{
-              shrink: true,
-              className: classes.inputLabel
-            }}
-            InputProps={{
-              disableUnderline: true,
-              classes: {
-                root: classes.inputField
-              }
-            }}
-            placeholder="Enter Post Title..."
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="POST BODY"
-            InputLabelProps={{
-              shrink: true,
-              className: classes.inputLabel
-            }}
-            InputProps={{
-              disableUnderline: true,
-              classes: {
-                root: classes.inputField
-              }
-            }}
-            multiline
-            rows={6}
-            placeholder="Enter Post Body..."
-            fullWidth
-            margin="normal"
-          />
-          <Grid container item xs={12} justify="flex-end">
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.submitBtn}
-            >
-              Submit
-            </Button>
+const authors = ["John", "Ann", "Taylor"]
+
+class AddPost extends Component {
+  state = {
+    title: "",
+    body: "",
+    category: "",
+    author: ""
+  }
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value
+    })
+  }
+
+  isFormInvalid = () => Object.values(this.state).some(val => !val)
+
+  handleSubmit = () => {
+    const { savePost, history } = this.props
+    savePost({
+      id: uuidv4(),
+      timestamp: Date.now(),
+      ...this.state
+    })
+    history.push("/")
+  }
+
+  render() {
+    const { classes } = this.props
+    const { title, body, category, author } = this.state
+    return (
+      <Grid container>
+        <Header />
+        <Grid item xs={12} md={12} lg={12} xl={12}>
+          <Grid container justify="center">
+            <Grid item sm={12} md={6} xl={6} lg={6}>
+              <TextField
+                label="POST TITLE"
+                InputLabelProps={{
+                  shrink: true,
+                  className: classes.inputLabel
+                }}
+                InputProps={{
+                  disableUnderline: true,
+                  classes: {
+                    root: classes.inputField
+                  }
+                }}
+                value={title}
+                onChange={this.handleChange("title")}
+                placeholder="Enter Post Title..."
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="POST BODY"
+                InputLabelProps={{
+                  shrink: true,
+                  className: classes.inputLabel
+                }}
+                InputProps={{
+                  disableUnderline: true,
+                  classes: {
+                    root: classes.inputField
+                  }
+                }}
+                value={body}
+                onChange={this.handleChange("body")}
+                multiline
+                rows={6}
+                placeholder="Enter Post Body..."
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                fullWidth
+                select
+                label="Select Category"
+                InputLabelProps={{
+                  shrink: true,
+                  className: classes.inputLabel
+                }}
+                InputProps={{
+                  disableUnderline: true,
+                  classes: {
+                    root: classes.inputField
+                  }
+                }}
+                value={category}
+                onChange={this.handleChange("category")}
+                margin="normal"
+              >
+                {Object.keys(VisibilityFilters)
+                  .filter(option => option !== VisibilityFilters.ALL)
+                  .map(option => (
+                    <MenuItem key={option} value={option}>
+                      {option.toLowerCase()}
+                    </MenuItem>
+                  ))}
+              </TextField>
+              <TextField
+                fullWidth
+                select
+                label="Select Author"
+                InputLabelProps={{
+                  shrink: true,
+                  className: classes.inputLabel
+                }}
+                InputProps={{
+                  disableUnderline: true,
+                  classes: {
+                    root: classes.inputField
+                  }
+                }}
+                value={author}
+                onChange={this.handleChange("author")}
+                margin="normal"
+              >
+                {authors.map(option => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <Grid container item xs={12} justify="flex-end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.submitBtn}
+                  disabled={this.isFormInvalid()}
+                  onClick={this.handleSubmit}
+                >
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
-  </Grid>
-)
+    )
+  }
+}
 
-export default withStyles(styles)(AddPost)
+const mapDispatchToProps = {
+  savePost: addPost
+}
+
+export default compose(
+  withStyles(styles),
+  connect(
+    null,
+    mapDispatchToProps
+  )
+)(AddPost)

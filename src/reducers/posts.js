@@ -1,4 +1,8 @@
-import { RECEIVE_POSTS, RECEIVE_POST_DETAILS } from "../constants/types"
+import {
+  RECEIVE_POSTS,
+  RECEIVE_POST_DETAILS,
+  POST_ADDED
+} from "../constants/types"
 
 export default function(state = {}, action) {
   switch (action.type) {
@@ -10,6 +14,13 @@ export default function(state = {}, action) {
         [action.post.id]: {
           ...action.post,
           comments: [...action.comments.result]
+        }
+      }
+    case POST_ADDED:
+      return {
+        ...state,
+        [action.post.id]: {
+          ...action.post
         }
       }
     default:
