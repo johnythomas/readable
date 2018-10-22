@@ -36,3 +36,16 @@ export function savePost(post) {
     body: JSON.stringify(post)
   }).then(res => res.json())
 }
+
+export function votePost(postId, option) {
+  return fetch(`${api}/posts/${postId}`, {
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    method: "POST",
+    body: JSON.stringify({
+      option
+    })
+  }).then(res => res.json())
+}
