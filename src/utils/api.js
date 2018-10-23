@@ -37,6 +37,17 @@ export function savePost(post) {
   }).then(res => res.json())
 }
 
+export async function deletePost(postId) {
+  const res = await fetch(`${api}/posts/${postId}`, {
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    method: "DELETE"
+  })
+  return res.json()
+}
+
 export function votePost(postId, option) {
   return fetch(`${api}/posts/${postId}`, {
     headers: {

@@ -22,7 +22,7 @@ import {
 } from "@material-ui/icons"
 import { getVisiblePosts } from "./reducers"
 import { VisibilityFilters } from "./actions/visibilityFilter"
-import { votePost } from "./actions/posts"
+import { votePost, deletePost } from "./actions/posts"
 import Vote from "./constants/Vote"
 
 const styles = theme => ({
@@ -34,7 +34,8 @@ const styles = theme => ({
   },
   voteButton: {
     fontSize: 36,
-    color: "#2e3d49"
+    color: "#2e3d49",
+    cursor: "pointer"
   },
   vote: {
     paddingLeft: "10px",
@@ -65,10 +66,13 @@ const styles = theme => ({
   },
   deleteIcon: {
     color: "#f44336"
+  },
+  actionText: {
+    cursor: "pointer"
   }
 })
 
-const ListPosts = ({ classes, posts, castVote }) => {
+const ListPosts = ({ classes, posts, castVote, removePost }) => {
   const handleVoteClick = (postId, option) => () => castVote(postId, option)
   return (
     <Grid container>
@@ -134,7 +138,7 @@ const ListPosts = ({ classes, posts, castVote }) => {
                       color="secondary"
                     />
                   </Grid>
-                  <Grid className={classes.comments} item sm={10}>
+                  <Grid className={classes.actionText} item sm={10}>
                     <Typography variant="body2">
                       {post.commentCount} COMMENTS
                     </Typography>
@@ -151,13 +155,14 @@ const ListPosts = ({ classes, posts, castVote }) => {
                   <Grid item sm={2} md={3}>
                     <Edit className={classes.icon} color="secondary" />
                   </Grid>
-                  <Grid className={classes.comments} item sm={10} md={9}>
+                  <Grid className={classes.actionText} item sm={10} md={9}>
                     <Typography variant="body2">Edit</Typography>
                   </Grid>
                 </Grid>
 
                 <Grid
                   className={classes.actionContainer}
+                  onClick={() => removePost(post.id)}
                   item
                   container
                   sm={3}
@@ -168,7 +173,7 @@ const ListPosts = ({ classes, posts, castVote }) => {
                       className={`${classes.icon} ${classes.deleteIcon}`}
                     />
                   </Grid>
-                  <Grid className={classes.comments} item sm={10} md={9}>
+                  <Grid className={classes.actionText} item sm={10} md={9}>
                     <Typography variant="body2">Delete</Typography>
                   </Grid>
                 </Grid>
@@ -186,7 +191,8 @@ const mapStateToProps = (state, { match }) => ({
 })
 
 const mapDispatchToProps = {
-  castVote: votePost
+  castVote: votePost,
+  removePost: deletePost
 }
 
 export default compose(
