@@ -58,7 +58,8 @@ const styles = theme => ({
     color: theme.palette.common.white
   },
   actionContainer: {
-    marginTop: "5px"
+    marginTop: "5px",
+    textDecoration: "none"
   },
   icon: {
     marginTop: "3px",
@@ -147,6 +148,8 @@ const ListPosts = ({ classes, posts, castVote, removePost }) => {
 
                 <Grid
                   className={classes.actionContainer}
+                  component={Link}
+                  to={`/edit/${post.id}`}
                   item
                   container
                   sm={3}

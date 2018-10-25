@@ -11,7 +11,7 @@ import { compose } from "recompose"
 import uuidv4 from "uuid/v4"
 import Header from "./Header"
 import { VisibilityFilters } from "./actions/visibilityFilter"
-import { addPost } from "./actions/posts"
+import { addPost, editPost } from "./actions/posts"
 
 const styles = theme => ({
   inputField: {
@@ -34,11 +34,15 @@ const styles = theme => ({
 const authors = ["John", "Ann", "Taylor"]
 
 class AddPost extends Component {
-  state = {
-    title: "",
-    body: "",
-    category: "",
-    author: ""
+  constructor(props) {
+    super(props)
+    const post = props.post || {}
+    this.state = {
+      title: post.title || "",
+      body: post.body || "",
+      category: post.category || "",
+      author: post.author || ""
+    }
   }
 
   handleChange = name => event => {
@@ -50,12 +54,19 @@ class AddPost extends Component {
   isFormInvalid = () => Object.values(this.state).some(val => !val)
 
   handleSubmit = () => {
-    const { savePost, history } = this.props
-    savePost({
-      id: uuidv4(),
-      timestamp: Date.now(),
-      ...this.state
-    })
+    const { post, savePost, modifyPost, history } = this.props
+    if (post) {
+      modifyPost({
+        ...post,
+        ...this.state
+      })
+    } else {
+      savePost({
+        id: uuidv4(),
+        timestamp: Date.now(),
+        ...this.state
+      })
+    }
     history.push("/")
   }
 
@@ -176,13 +187,18 @@ class AddPost extends Component {
 }
 
 const mapDispatchToProps = {
-  savePost: addPost
+  savePost: addPost,
+  modifyPost: editPost
 }
+
+const mapStateToProps = (state, { match }) => ({
+  post: state.posts[match.params.id]
+})
 
 export default compose(
   withStyles(styles),
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )
 )(AddPost)

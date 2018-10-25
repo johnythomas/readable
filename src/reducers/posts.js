@@ -3,7 +3,8 @@ import {
   RECEIVE_POST_DETAILS,
   POST_ADDED,
   POST_DELETED,
-  VOTE_ADDED
+  VOTE_ADDED,
+  POST_EDITED
 } from "../constants/types"
 import Vote from "../constants/Vote"
 
@@ -20,6 +21,7 @@ export default function(state = {}, action) {
         }
       }
     case POST_ADDED:
+    case POST_EDITED:
       return {
         ...state,
         [action.post.id]: {

@@ -4,7 +4,8 @@ import {
   RECEIVE_POSTS,
   POST_ADDED,
   VOTE_ADDED,
-  POST_DELETED
+  POST_DELETED,
+  POST_EDITED
 } from "../constants/types"
 import * as API from "../utils/api"
 
@@ -15,6 +16,11 @@ export const receivePosts = posts => ({
 
 export const postAdded = post => ({
   type: POST_ADDED,
+  post
+})
+
+export const postEdited = post => ({
+  type: POST_EDITED,
   post
 })
 
@@ -42,6 +48,15 @@ export const addPost = post => async dispatch => {
   try {
     const addedPost = await API.savePost(post)
     dispatch(postAdded(addedPost))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const editPost = post => async dispatch => {
+  try {
+    const editedPost = await API.editPost(post)
+    dispatch(postEdited(editedPost))
   } catch (err) {
     console.log(err)
   }

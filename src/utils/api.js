@@ -37,6 +37,17 @@ export function savePost(post) {
   }).then(res => res.json())
 }
 
+export function editPost(post) {
+  return fetch(`${api}/posts/${post.id}`, {
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    method: "PUT",
+    body: JSON.stringify(post)
+  }).then(res => res.json())
+}
+
 export async function deletePost(postId) {
   const res = await fetch(`${api}/posts/${postId}`, {
     headers: {

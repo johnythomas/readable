@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { Link } from "react-router-dom"
 import {
   Avatar,
   Chip,
@@ -18,6 +19,7 @@ import { compose } from "lodash/fp"
 import Header from "./Header"
 import ListComments from "./ListComments"
 import { fetchPostDetails } from "./actions/comments"
+import { deletePost } from "./actions/posts"
 
 const styles = theme => ({
   post: {
@@ -49,7 +51,8 @@ const styles = theme => ({
     margin: `${theme.spacing.unit * 2}px 0`
   },
   actionContainer: {
-    margin: `${theme.spacing.unit * 2}px`
+    margin: `${theme.spacing.unit * 2}px`,
+    textDecoration: "none"
   },
   icon: {
     marginTop: "3px",
@@ -57,6 +60,9 @@ const styles = theme => ({
   },
   deleteIcon: {
     color: "#f44336"
+  },
+  actionText: {
+    cursor: "pointer"
   }
 })
 
@@ -64,6 +70,12 @@ class PostDetails extends Component {
   componentDidMount() {
     const { match, getPostDetails } = this.props
     getPostDetails(match.params.id)
+  }
+
+  handleDeletePost(postId) {
+    const { removePost, history } = this.props
+    removePost(postId)
+    history.push("/")
   }
 
   render() {
@@ -102,6 +114,8 @@ class PostDetails extends Component {
                 <Grid container>
                   <Grid
                     className={classes.actionContainer}
+                    component={Link}
+                    to={`/edit/${post.id}`}
                     item
                     container
                     sm={3}
@@ -110,7 +124,7 @@ class PostDetails extends Component {
                     <Grid item sm={2} md={3}>
                       <Edit className={classes.icon} color="secondary" />
                     </Grid>
-                    <Grid item sm={10} md={9}>
+                    <Grid className={classes.actionText} item sm={10} md={9}>
                       <Typography variant="body2">Edit</Typography>
                     </Grid>
                   </Grid>
@@ -127,7 +141,13 @@ class PostDetails extends Component {
                         className={`${classes.icon} ${classes.deleteIcon}`}
                       />
                     </Grid>
-                    <Grid item sm={10} md={9}>
+                    <Grid
+                      className={classes.actionText}
+                      item
+                      sm={10}
+                      md={9}
+                      onClick={() => this.handleDeletePost(post.id)}
+                    >
                       <Typography variant="body2">Delete</Typography>
                     </Grid>
                   </Grid>
@@ -148,7 +168,8 @@ const mapStateToProps = (state, { match }) => ({
 })
 
 const mapDispatchToProps = {
-  getPostDetails: fetchPostDetails
+  getPostDetails: fetchPostDetails,
+  removePost: deletePost
 }
 
 export default compose(
