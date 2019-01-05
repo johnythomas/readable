@@ -19,7 +19,8 @@ import { compose } from "lodash/fp"
 import Header from "./Header"
 import ListComments from "./ListComments"
 import { fetchPostDetails } from "./actions/comments"
-import { deletePost } from "./actions/posts"
+import { deletePost, votePost } from "./actions/posts"
+import Vote from "./constants/Vote"
 
 const styles = theme => ({
   post: {
@@ -27,7 +28,8 @@ const styles = theme => ({
   },
   voteButton: {
     fontSize: 36,
-    color: "#2e3d49"
+    color: "#2e3d49",
+    cursor: "pointer"
   },
   vote: {
     paddingLeft: "10px",
@@ -72,6 +74,9 @@ class PostDetails extends Component {
     getPostDetails(match.params.id)
   }
 
+  handleVoteClick = (postId, option) => () =>
+    this.props.castVote(postId, option)
+
   handleDeletePost(postId) {
     const { removePost, history } = this.props
     removePost(postId)
@@ -89,11 +94,17 @@ class PostDetails extends Component {
           <Grid className={classes.postCard}>
             <Grid container>
               <Grid item sm={1} md={1}>
-                <ArrowDropUp className={classes.voteButton} />
+                <ArrowDropUp
+                  className={classes.voteButton}
+                  onClick={this.handleVoteClick(post.id, Vote.UPVOTE)}
+                />
                 <Typography className={classes.vote}>
                   {post.voteScore}
                 </Typography>
-                <ArrowDropDown className={classes.voteButton} />
+                <ArrowDropDown
+                  className={classes.voteButton}
+                  onClick={this.handleVoteClick(post.id, Vote.DOWNVOTE)}
+                />
               </Grid>
               <Grid item sm={11} md={11}>
                 <Typography variant="title" gutterBottom>
@@ -169,7 +180,8 @@ const mapStateToProps = (state, { match }) => ({
 
 const mapDispatchToProps = {
   getPostDetails: fetchPostDetails,
-  removePost: deletePost
+  removePost: deletePost,
+  castVote: votePost
 }
 
 export default compose(

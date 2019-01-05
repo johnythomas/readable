@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { PropTypes } from "prop-types"
 import { Link } from "react-router-dom"
 import {
   Grid,
@@ -50,6 +51,7 @@ class ListPostHeader extends Component {
 
   render() {
     const { classes } = this.props
+    const { query } = this.state
     return (
       <Grid
         className={classes.navBarContainer}
@@ -95,7 +97,7 @@ class ListPostHeader extends Component {
               <FormControl fullWidth>
                 <Input
                   className={classes.searchText}
-                  value={this.state.query}
+                  value={query}
                   startAdornment={
                     <InputAdornment position="start">
                       <Search color="primary" />
@@ -112,6 +114,17 @@ class ListPostHeader extends Component {
       </Grid>
     )
   }
+}
+
+ListPostHeader.propTypes = {
+  classes: PropTypes.shape({
+    navBarContainer: PropTypes.string.isRequired,
+    searchText: PropTypes.string.isRequired,
+    divider: PropTypes.string.isRequired,
+    whiteText: PropTypes.string.isRequired,
+    addPostIcon: PropTypes.string.isRequired,
+    addPostLink: PropTypes.string.isRequired
+  }).isRequired
 }
 
 export default withStyles(styles)(ListPostHeader)
