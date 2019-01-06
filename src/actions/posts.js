@@ -4,7 +4,8 @@ import {
   POST_ADDED,
   VOTE_ADDED,
   POST_DELETED,
-  POST_EDITED
+  POST_EDITED,
+  ADD_POST
 } from "../constants/types"
 import * as API from "../utils/api"
 
@@ -15,6 +16,11 @@ export const fetchPosts = () => ({
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,
   posts
+})
+
+export const addPost = post => ({
+  type: ADD_POST,
+  post
 })
 
 export const postAdded = post => ({
@@ -37,15 +43,6 @@ export const voteAdded = (postId, option) => ({
   postId,
   option
 })
-
-export const addPost = post => async dispatch => {
-  try {
-    const addedPost = await API.savePost(post)
-    dispatch(postAdded(addedPost))
-  } catch (err) {
-    console.log(err)
-  }
-}
 
 export const editPost = post => async dispatch => {
   try {
