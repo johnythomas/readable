@@ -5,9 +5,13 @@ import {
   VOTE_ADDED,
   POST_DELETED,
   POST_EDITED,
-  ADD_POST
+  ADD_POST,
+  EDIT_POST,
+  DELETE_POST,
+  VOTE_POST,
+  FETCH_POST_DETAILS,
+  RECEIVE_POST_DETAILS
 } from "../constants/types"
-import * as API from "../utils/api"
 
 export const fetchPosts = () => ({
   type: FETCH_POSTS
@@ -16,6 +20,17 @@ export const fetchPosts = () => ({
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,
   posts
+})
+
+export const fetchPostDetails = postId => ({
+  type: FETCH_POST_DETAILS,
+  postId
+})
+
+export const receivePostDetails = (post, comments) => ({
+  type: RECEIVE_POST_DETAILS,
+  post,
+  comments
 })
 
 export const addPost = post => ({
@@ -28,9 +43,19 @@ export const postAdded = post => ({
   post
 })
 
+export const editPost = post => ({
+  type: EDIT_POST,
+  post
+})
+
 export const postEdited = post => ({
   type: POST_EDITED,
   post
+})
+
+export const deletePost = postId => ({
+  type: DELETE_POST,
+  postId
 })
 
 export const postDeleted = postId => ({
@@ -38,35 +63,14 @@ export const postDeleted = postId => ({
   postId
 })
 
+export const votePost = (postId, option) => ({
+  type: VOTE_POST,
+  postId,
+  option
+})
+
 export const voteAdded = (postId, option) => ({
   type: VOTE_ADDED,
   postId,
   option
 })
-
-export const editPost = post => async dispatch => {
-  try {
-    const editedPost = await API.editPost(post)
-    dispatch(postEdited(editedPost))
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-export const deletePost = postId => async dispatch => {
-  try {
-    await API.deletePost(postId)
-    dispatch(postDeleted(postId))
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-export const votePost = (postId, option) => async dispatch => {
-  try {
-    const post = await API.votePost(postId, option)
-    dispatch(voteAdded(post.id, option))
-  } catch (err) {
-    console.log(err)
-  }
-}
