@@ -18,8 +18,7 @@ import {
 import { compose } from "lodash/fp"
 import Header from "./Header"
 import ListComments from "./ListComments"
-import { fetchPostDetails } from "./actions/comments"
-import { deletePost, votePost } from "./actions/posts"
+import { deletePost, fetchPostDetails, votePost } from "./actions/posts"
 import Vote from "./constants/Vote"
 
 const styles = theme => ({

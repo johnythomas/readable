@@ -1,21 +1,50 @@
-import { normalize } from "normalizr"
-import Post from "../schemas/Post"
 import {
+  FETCH_POSTS,
   RECEIVE_POSTS,
   POST_ADDED,
   VOTE_ADDED,
   POST_DELETED,
-  POST_EDITED
+  POST_EDITED,
+  ADD_POST,
+  EDIT_POST,
+  DELETE_POST,
+  VOTE_POST,
+  FETCH_POST_DETAILS,
+  RECEIVE_POST_DETAILS
 } from "../constants/types"
-import * as API from "../utils/api"
+
+export const fetchPosts = () => ({
+  type: FETCH_POSTS
+})
 
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,
   posts
 })
 
+export const fetchPostDetails = postId => ({
+  type: FETCH_POST_DETAILS,
+  postId
+})
+
+export const receivePostDetails = (post, comments) => ({
+  type: RECEIVE_POST_DETAILS,
+  post,
+  comments
+})
+
+export const addPost = post => ({
+  type: ADD_POST,
+  post
+})
+
 export const postAdded = post => ({
   type: POST_ADDED,
+  post
+})
+
+export const editPost = post => ({
+  type: EDIT_POST,
   post
 })
 
@@ -24,9 +53,20 @@ export const postEdited = post => ({
   post
 })
 
+export const deletePost = postId => ({
+  type: DELETE_POST,
+  postId
+})
+
 export const postDeleted = postId => ({
   type: POST_DELETED,
   postId
+})
+
+export const votePost = (postId, option) => ({
+  type: VOTE_POST,
+  postId,
+  option
 })
 
 export const voteAdded = (postId, option) => ({
@@ -34,48 +74,3 @@ export const voteAdded = (postId, option) => ({
   postId,
   option
 })
-
-export const fetchPosts = () => async dispatch => {
-  try {
-    const posts = await API.getPosts()
-    dispatch(receivePosts(normalize(posts, [Post]).entities.posts))
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-export const addPost = post => async dispatch => {
-  try {
-    const addedPost = await API.savePost(post)
-    dispatch(postAdded(addedPost))
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-export const editPost = post => async dispatch => {
-  try {
-    const editedPost = await API.editPost(post)
-    dispatch(postEdited(editedPost))
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-export const deletePost = postId => async dispatch => {
-  try {
-    await API.deletePost(postId)
-    dispatch(postDeleted(postId))
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-export const votePost = (postId, option) => async dispatch => {
-  try {
-    const post = await API.votePost(postId, option)
-    dispatch(voteAdded(post.id, option))
-  } catch (err) {
-    console.log(err)
-  }
-}
