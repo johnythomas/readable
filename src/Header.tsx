@@ -1,6 +1,6 @@
-import React from "react"
-import { Link } from "react-router-dom"
 import { AppBar, Toolbar, Typography, withStyles } from "@material-ui/core"
+import * as React from "react"
+import { Link } from "react-router-dom"
 
 const styles = {
   title: {
@@ -8,13 +8,18 @@ const styles = {
   }
 }
 
-const Header = ({ classes }) => (
+const HomeLink = (_: any, ...props: any) => <Link {...props} to="/" />
+
+interface IHeaderProps {
+  classes: any
+}
+
+const Header: React.SFC<IHeaderProps> = ({ classes }) => (
   <AppBar position="static" color="primary">
     <Toolbar>
       <Typography
         className={classes.title}
-        component={Link}
-        to="/"
+        component={HomeLink}
         variant="title"
         color="inherit"
       >

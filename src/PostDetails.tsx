@@ -1,98 +1,101 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import { Link } from "react-router-dom"
 import {
   Avatar,
   Chip,
   Divider,
   Grid,
+  Theme,
   Typography,
-  withStyles
+  withStyles,
+  WithStyles,
 } from "@material-ui/core"
 import {
-  ArrowDropUp,
   ArrowDropDown,
+  ArrowDropUp,
   DeleteOutline,
-  Edit
+  Edit,
 } from "@material-ui/icons"
 import { compose } from "lodash/fp"
-import Header from "./Header"
-import ListComments from "./ListComments"
+import * as React from "react"
+import { connect } from "react-redux"
+import { Link, RouteComponentProps } from "react-router-dom"
 import { deletePost, fetchPostDetails, votePost } from "./actions/posts"
 import Vote from "./constants/Vote"
+import Header from "./Header"
+import ListComments from "./ListComments"
 
-const styles = theme => ({
+const styles = (theme: Theme) => ({
   post: {
-    marginTop: `${theme.spacing.unit * 4}px`
+    marginTop: `${theme.spacing.unit * 4}px`,
   },
   voteButton: {
     fontSize: 36,
     color: "#2e3d49",
-    cursor: "pointer"
+    cursor: "pointer",
   },
   vote: {
     paddingLeft: "10px",
-    fontWeight: "bold"
+    fontWeight: 700,
   },
   postBody: {
-    color: "#2e3d49"
+    color: "#2e3d49",
   },
   categoryChip: {
     margin: `${theme.spacing.unit * 2}px 0`,
     backgroundColor: "#e5f6fd",
-    color: theme.palette.primary.main
+    color: theme.palette.primary.main,
   },
   avatar: {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
   },
   avatarChip: {
     backgroud: "none",
     color: "e5f6fd",
-    margin: `${theme.spacing.unit * 2}px 0`
+    margin: `${theme.spacing.unit * 2}px 0`,
   },
   actionContainer: {
     margin: `${theme.spacing.unit * 2}px`,
-    textDecoration: "none"
+    textDecoration: "none",
   },
   icon: {
     marginTop: "3px",
-    fontSize: 20
+    fontSize: 20,
   },
   deleteIcon: {
-    color: "#f44336"
+    color: "#f44336",
   },
   actionText: {
-    cursor: "pointer"
-  }
+    cursor: "pointer",
+  },
 })
 
-class PostDetails extends Component {
-  componentDidMount() {
+interface IPostDetailsProps
+  extends RouteComponentProps<any>,
+    WithStyles<typeof styles> {
+  classes: any
+  post: any
+  getPostDetails: any
+  castVote: any
+  removePost: any
+}
+
+class PostDetails extends React.Component<IPostDetailsProps> {
+  public componentDidMount() {
     const { match, getPostDetails } = this.props
     getPostDetails(match.params.id)
   }
 
-  handleVoteClick = (postId, option) => () =>
-    this.props.castVote(postId, option)
-
-  handleDeletePost(postId) {
-    const { removePost, history } = this.props
-    removePost(postId)
-    history.push("/")
-  }
-
-  render() {
+  public render() {
     const { classes, post } = this.props
     return !post ? (
       <div>Loading</div>
     ) : (
-      <Grid container justify="center">
+      <Grid container={true} justify="center">
         <Header />
-        <Grid className={classes.post} item sm={6} md={6} lg={5} xs={12}>
+        <Grid className={classes.post} item={true} sm={6} md={6} lg={5} xs={12}>
           <Grid className={classes.postCard}>
-            <Grid container>
-              <Grid item sm={1} md={1}>
+            <Grid container={true}>
+              <Grid item={true} sm={1} md={1}>
                 <ArrowDropUp
                   className={classes.voteButton}
                   onClick={this.handleVoteClick(post.id, Vote.UPVOTE)}
@@ -105,8 +108,8 @@ class PostDetails extends Component {
                   onClick={this.handleVoteClick(post.id, Vote.DOWNVOTE)}
                 />
               </Grid>
-              <Grid item sm={11} md={11}>
-                <Typography variant="title" gutterBottom>
+              <Grid item={true} sm={11} md={11}>
+                <Typography variant="title" gutterBottom={true}>
                   {post.title}
                 </Typography>
 
@@ -121,42 +124,46 @@ class PostDetails extends Component {
                 </Typography>
                 <Chip className={classes.categoryChip} label={post.category} />
 
-                <Grid container>
+                <Grid container={true}>
                   <Grid
                     className={classes.actionContainer}
-                    component={Link}
-                    to={`/edit/${post.id}`}
-                    item
-                    container
+                    component={this.toPostLink(post.id)}
+                    item={true}
+                    container={true}
                     sm={3}
                     md={2}
                   >
-                    <Grid item sm={2} md={3}>
+                    <Grid item={true} sm={2} md={3}>
                       <Edit className={classes.icon} color="secondary" />
                     </Grid>
-                    <Grid className={classes.actionText} item sm={10} md={9}>
+                    <Grid
+                      className={classes.actionText}
+                      item={true}
+                      sm={10}
+                      md={9}
+                    >
                       <Typography variant="body2">Edit</Typography>
                     </Grid>
                   </Grid>
 
                   <Grid
                     className={classes.actionContainer}
-                    item
-                    container
+                    item={true}
+                    container={true}
                     sm={3}
                     md={2}
                   >
-                    <Grid item sm={2} md={3}>
+                    <Grid item={true} sm={2} md={3}>
                       <DeleteOutline
                         className={`${classes.icon} ${classes.deleteIcon}`}
                       />
                     </Grid>
                     <Grid
                       className={classes.actionText}
-                      item
+                      item={true}
                       sm={10}
                       md={9}
-                      onClick={() => this.handleDeletePost(post.id)}
+                      onClick={this.handleDeletePost(post.id)}
                     >
                       <Typography variant="body2">Delete</Typography>
                     </Grid>
@@ -171,16 +178,29 @@ class PostDetails extends Component {
       </Grid>
     )
   }
+
+  private toPostLink = (id: string) => (_: any, ...props: any) => (
+    <Link {...props} to={`/edit/${id}`} />
+  )
+
+  private handleVoteClick = (postId: string, option: string) => () =>
+    this.props.castVote(postId, option)
+
+  private handleDeletePost = (postId: string) => () => {
+    const { removePost, history } = this.props
+    removePost(postId)
+    history.push("/")
+  }
 }
 
-const mapStateToProps = (state, { match }) => ({
-  post: state.posts[match.params.id]
+const mapStateToProps = (state: any, { match }: any) => ({
+  post: state.posts[match.params.id],
 })
 
 const mapDispatchToProps = {
   getPostDetails: fetchPostDetails,
   removePost: deletePost,
-  castVote: votePost
+  castVote: votePost,
 }
 
 export default compose(

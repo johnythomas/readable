@@ -18,59 +18,59 @@ export const fetchPosts = () => ({
 })
 
 export const receivePosts = posts => ({
-  type: RECEIVE_POSTS,
-  posts
+  posts,
+  type: RECEIVE_POSTS
 })
 
 export const fetchPostDetails = postId => ({
-  type: FETCH_POST_DETAILS,
-  postId
+  postId,
+  type: FETCH_POST_DETAILS
 })
 
 export const receivePostDetails = (post, comments) => ({
-  type: RECEIVE_POST_DETAILS,
+  comments,
   post,
-  comments
+  type: RECEIVE_POST_DETAILS
 })
 
 export const addPost = post => ({
-  type: ADD_POST,
-  post
+  post,
+  type: ADD_POST
 })
 
 export const postAdded = post => ({
-  type: POST_ADDED,
-  post
+  post,
+  type: POST_ADDED
 })
 
 export const editPost = post => ({
-  type: EDIT_POST,
-  post
+  post,
+  type: EDIT_POST
 })
 
 export const postEdited = post => ({
-  type: POST_EDITED,
-  post
+  post,
+  type: POST_EDITED
 })
 
 export const deletePost = postId => ({
-  type: DELETE_POST,
-  postId
+  postId,
+  type: DELETE_POST
 })
 
 export const postDeleted = postId => ({
-  type: POST_DELETED,
-  postId
+  postId,
+  type: POST_DELETED
 })
 
 export const votePost = (postId, option) => ({
-  type: VOTE_POST,
+  option,
   postId,
-  option
+  type: VOTE_POST
 })
 
 export const voteAdded = (postId, option) => ({
-  type: VOTE_ADDED,
+  option,
   postId,
-  option
+  type: VOTE_ADDED
 })

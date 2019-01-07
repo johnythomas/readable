@@ -1,7 +1,7 @@
 export const VisibilityFilters = {
   ALL: "ALL",
+  ANGULAR: "ANGULAR",
   REACT: "REACT",
   REDUX: "REDUX",
-  ANGULAR: "ANGULAR",
   VUE: "VUE"
 }

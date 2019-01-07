@@ -1,14 +1,13 @@
-import React from "react"
-import ReactDOM from "react-dom"
+import { CssBaseline, MuiThemeProvider } from "@material-ui/core"
+import * as React from "react"
+import * as ReactDOM from "react-dom"
 import { Provider } from "react-redux"
-import { MuiThemeProvider, CssBaseline } from "@material-ui/core"
-
-import configureStore from "./store"
-import App from "./App"
-import theme from "./Theme"
-import registerServiceWorker from "./registerServiceWorker"
 import "typeface-roboto"
+import App from "./App"
 import "./index.css"
+import registerServiceWorker from "./registerServiceWorker"
+import configureStore from "./store"
+import theme from "./Theme"
 
 const store = configureStore()
 
